@@ -4,6 +4,18 @@
 /* purgecss end ignore */
 @tailwind utilities;
 
+.katex {
+    text-align: center;
+}
+
+* {
+    transition: all 0.25s ease-in-out;
+}
+
+a {
+    cursor: pointer;
+}
+
 @media (prefers-color-scheme:dark) {
     body {
         background: #000;
