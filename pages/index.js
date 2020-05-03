@@ -5,7 +5,7 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import Head from 'next/head'
 import { CMS_NAME } from '../lib/constants'
-// import fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-unfetch';
 
 export default function Index({ allPosts }) {
   const heroPost = allPosts[0]

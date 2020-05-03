@@ -27,7 +27,9 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
   console.log(slugs.indexOf(post.slug))
 
   console.log(posts[0].title)
+  console.log(slugs.indexOf(post.slug) !== 0)
 
+  console.log(slugs.indexOf(post.slug) !== slugs.length-1)
   return (
     <Layout preview={preview}>
       <Container>
@@ -71,7 +73,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
                       }
 
                       {
-                        slugs.indexOf(post.slug) !== slugs.length && (
+                        slugs.indexOf(post.slug) !== slugs.length-1 && (
                           <a
                             href={`${server}/posts/${slugs[slugs.indexOf(post.slug) + 1]}`}
                             className=" mx-3 border border-black font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
@@ -97,7 +99,9 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
   )
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, hostname }) {
+
+  console.log(hostname)
 
   let post = await fetch(`${server}/api/posts/${params.slug}?fields=title,date,slug,author,content,ogImage,coverImage`).then(e => e.json())
 
@@ -136,7 +140,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
 
-  const posts = await fetch(`${server}/api/allPosts?fields=slug`).then(e => e.json())
+  const posts = await fetch(`${server}/api/allPosts`).then(e => e.json())
 
   return {
     paths: posts.map(posts => {
