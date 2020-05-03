@@ -1,0 +1,12 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+@tailwind utilities;
+
+@media (prefers-color-scheme:dark) {
+    body {
+        background: #000;
+        color: #FFF;
+    }
+}
