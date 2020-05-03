@@ -8,6 +8,8 @@ module.exports = {
         'accent-7': '#333',
         success: '#0070f3',
         cyan: '#79FFE1',
+        black: "#000",
+        white: "#FFF"
       },
       spacing: {
         28: '7rem',
@@ -30,4 +32,7 @@ module.exports = {
       },
     },
   },
+  screens: {
+    'dark-mode': {'raw': '(prefers-color-scheme: dark)'},
+  }
 }
