@@ -18,14 +18,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
     return <ErrorPage statusCode={404} />
   }
 
-  console.log(post.slug)
-
-  console.log(slugs.indexOf(post.slug))
-
-  console.log(posts[0].title)
-  console.log(slugs.indexOf(post.slug) !== 0)
-
-  console.log(slugs.indexOf(post.slug) !== slugs.length-1)
+  console.log(post.emoji)
   return (
     <Layout preview={preview}>
       <Container>
@@ -46,14 +39,16 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
                   coverImage={post.coverImage}
                   date={post.date}
                   author={post.author}
+                  excerpt={post.excerpt}
+                  emoji={post.emoji}
                 />
                 <div className="max-w-3xl mx-auto">
                   <div
                     className={markdownStyles['markdown']}
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
-                  <div className="bg-white text-black px-12 py-28 flex flex-col lg:flex-row items-center">
-                    <h3 className="text-4xl lg:text-5xl font-bold text-black tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
+                  <div className="bg-black text-white dark-mode:bg-white dark-mode:text-black px-12 py-28 flex flex-col lg:flex-row items-center">
+                    <h3 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
                       That's the end!
                     </h3>
                     <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
@@ -94,12 +89,25 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
 export async function getStaticProps({ params }) {
   const { getPostBySlug, getAllPosts } = require('../api/api')
 
-  let post = await getPostBySlug(params.slug, ["title","date","slug","author","content","ogImage","coverImage"])
+  let post = await getPostBySlug(params.slug, ["title","date","slug","author","content","ogImage","coverImage", "excerpt", "emoji"])
+
+  console.log(post)
 
   let slugs = await getAllPosts(['slug']).map(e => e.slug)
-  let posts = await getAllPosts(["title","date","slug","author","content","ogImage","coverImage"])
+  let posts = await getAllPosts(["title","date","slug","author","content","ogImage","coverImage", "excerpt", "emoji"])
 
   console.log(slugs)
+
+  const classMap = {
+    a: "hover:bg-white hover:text-black dark-mode:hover:bg-black dark-mode:hover:text-white bg-black text-white dark-mode:bg-white dark-mode:text-black rounded px-1"
+  }
+  
+  const bindings = Object.keys(classMap)
+    .map(key => ({
+      type: 'output',
+      regex: new RegExp(`<${key}(.*)>`, 'g'),
+      replace: `<${key} class="${classMap[key]}" $1>`
+    }));
 
   var showdown = require('showdown'),
     converter = new showdown.Converter({
@@ -113,10 +121,13 @@ export async function getStaticProps({ params }) {
             { left: '~', right: '~', display: false, asciimath: true },
           ],
         }),
-        showdownHighlight
+        showdownHighlight,
+        ...bindings
       ]
-    }),
-    content = await converter.makeHtml(post.content);
+    })
+
+    
+    const content = await converter.makeHtml(post.content);
 
   return {
     props: {

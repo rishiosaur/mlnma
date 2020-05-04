@@ -2,7 +2,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "text": "FFF",
         'accent-1': '#FAFAFA',
         'accent-2': '#EAEAEA',
         'accent-7': '#333',
@@ -30,9 +29,10 @@ module.exports = {
         small: '0 5px 10px rgba(0, 0, 0, 0.12)',
         medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
+      screens: {
+        'dark-mode': {'raw': '(prefers-color-scheme: dark)'},
+      }
     },
   },
-  screens: {
-    'dark-mode': {'raw': '(prefers-color-scheme: dark)'},
-  }
+  
 }

@@ -1,5 +1,6 @@
 import Container from './container'
 import { EXAMPLE_PATH } from '../lib/constants'
+import { FiGithub, FiBookOpen } from 'react-icons/fi'
 
 export default function Footer() {
   return (
@@ -14,13 +15,13 @@ export default function Footer() {
               href="https://rishi.js.org"
               className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
             >
-              ~rishi
+              rishi
             </a>
             <a
               href={`https://github.com/rishiosaur/mlnma`}
               className="mx-3 font-bold hover:underline text-black"
             >
-              View on GitHub
+              github
             </a>
           </div>
         </div>

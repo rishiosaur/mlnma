@@ -7,9 +7,21 @@ import Head from 'next/head'
 import { CMS_NAME } from '../lib/constants'
 import fetch from 'isomorphic-unfetch';
 
+function compare( a, b ) {
+  if ( Date.parse(a.date) < Date.parse(b.date) ){
+    return 1;
+  }
+  if ( Date.parse(a.date) > Date.parse(b.date) ){
+    return -1;
+  }
+  return 0;
+}
+
 export default function Index({ allPosts }) {
-  const heroPost = allPosts[0]
-  const morePosts = allPosts.slice(1)
+  const postsSorted = allPosts.sort(compare)
+  console.log(postsSorted)
+  const heroPost = postsSorted[0]
+  const morePosts = postsSorted.slice(1)
   return (
     <>
       <Layout>
