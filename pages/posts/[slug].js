@@ -5,16 +5,12 @@ import PostBody from '../../components/post-body'
 import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import Layout from '../../components/layout'
-// import { getPostBySlug, getAllPosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
 import Head from 'next/head'
-import { CMS_NAME } from '../../lib/constants'
-import markdownToHtml from '../../lib/markdownToHtml'
-import fetch from 'isomorphic-unfetch'
-import { server } from '..'
 import markdownStyles from '../../components/markdown-styles.module.css'
 const katexConv = require("showdown-katex")
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+const showdownHighlight = require("showdown-highlight")
 
 export default function Post({ post, morePosts, preview, slugs, posts }) {
   const router = useRouter()
@@ -41,7 +37,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
               <article className="mb-32">
                 <Head>
                   <title>
-                    {post.title} | Next.js Blog Example with {CMS_NAME}
+                    MLNMA.
                   </title>
                   <meta property="og:image" content={post.ogImage.url} />
                 </Head>
@@ -64,7 +60,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
                       {
                         slugs.indexOf(post.slug) !== 0 && (
                           <a
-                            href={`${server}/posts/${slugs[slugs.indexOf(post.slug) - 1]}`}
+                            href={`/posts/${slugs[slugs.indexOf(post.slug) - 1]}`}
                             className="mx-3 font-bold hover:underline text-black "
                           >
                             <FiArrowLeft />{posts[slugs.indexOf(post.slug) - 1].title}
@@ -75,7 +71,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
                       {
                         slugs.indexOf(post.slug) !== slugs.length-1 && (
                           <a
-                            href={`${server}/posts/${slugs[slugs.indexOf(post.slug) + 1]}`}
+                            href={`/posts/${slugs[slugs.indexOf(post.slug) + 1]}`}
                             className=" mx-3 border border-black font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
                           >
                             <FiArrowRight />
@@ -86,11 +82,7 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
 
                     </div>
                   </div>
-
                 </div>
-
-
-
               </article>
             </>
           )}
@@ -99,14 +91,13 @@ export default function Post({ post, morePosts, preview, slugs, posts }) {
   )
 }
 
-export async function getStaticProps({ params, hostname }) {
+export async function getStaticProps({ params }) {
+  const { getPostBySlug, getAllPosts } = require('../api/api')
 
-  console.log(hostname)
+  let post = await getPostBySlug(params.slug, ["title","date","slug","author","content","ogImage","coverImage"])
 
-  let post = await fetch(`${server}/api/posts/${params.slug}?fields=title,date,slug,author,content,ogImage,coverImage`).then(e => e.json())
-
-  let slugs = await fetch(`${server}/api/slugs`).then(e => e.json())
-  let posts = await fetch(`${server}/api/allPosts`).then(e => e.json())
+  let slugs = await getAllPosts(['slug']).map(e => e.slug)
+  let posts = await getAllPosts(["title","date","slug","author","content","ogImage","coverImage"])
 
   console.log(slugs)
 
@@ -121,7 +112,8 @@ export async function getStaticProps({ params, hostname }) {
             { left: "$$", right: "$$", display: false },
             { left: '~', right: '~', display: false, asciimath: true },
           ],
-        })
+        }),
+        showdownHighlight
       ]
     }),
     content = await converter.makeHtml(post.content);
@@ -138,9 +130,10 @@ export async function getStaticProps({ params, hostname }) {
   }
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths(context) {
+  const { getAllPosts } = require('../api/api')
 
-  const posts = await fetch(`${server}/api/allPosts`).then(e => e.json())
+  const posts = await getAllPosts(["slug"])
 
   return {
     paths: posts.map(posts => {

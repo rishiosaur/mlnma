@@ -21,3 +21,7 @@ Tristique senectus et netus et malesuada fames ac turpis. Ridiculus mus mauris v
 ```latex
 x=\frac{ -b\pm\sqrt{ b^2-4ac } } {2a}
 ```
+
+```javascript
+let x = "hi"
+```

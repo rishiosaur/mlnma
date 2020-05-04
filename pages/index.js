@@ -39,13 +39,11 @@ export default function Index({ allPosts }) {
 
 export async function getStaticProps(req) {
 
-  const allPosts = await fetch( `${server}/api/allPosts`).then(e => e.json())
+  const { getAllPosts } = require('./api/api')
+
+  const allPosts = await getAllPosts(["title","date","slug","author","content","ogImage","coverImage", "excerpt"])
 
   return {
         props: { allPosts },
   }
 }
-
-const dev = process.env.NODE_ENV !== 'production';
-
-export const server = dev ? 'http://localhost:3234' : 'https://mlnma.now.sh';

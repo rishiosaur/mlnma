@@ -5,7 +5,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export"
+    "export": "next export",
+    "move": "mv out docs"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.6.1",
@@ -26,7 +27,10 @@
     "remark-html-katex": "^2.0.1",
     "remark-math": "^2.0.1",
     "showdown": "^1.9.1",
-    "showdown-katex": "^0.8.0"
+    "showdown-highlight": "^2.1.4",
+    "showdown-highlightjs-extension": "^0.1.2",
+    "showdown-katex": "^0.8.0",
+    "unfetch": "^4.1.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
