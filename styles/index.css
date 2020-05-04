@@ -15,6 +15,9 @@
 a {
     cursor: pointer;
 }
+html, body, .container {
+    scroll-behavior: smooth;
+  }
 
 @media (prefers-color-scheme:dark) {
     body {

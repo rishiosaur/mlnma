@@ -6348,6 +6348,11 @@ showdown-katex@^0.8.0:
     jsdom "^16.2.1"
     katex "^0.11.1"
 
+showdown-toc@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/showdown-toc/-/showdown-toc-1.0.1.tgz#a37e77c351e33738985ebcd858870b3cc90524bc"
+  integrity sha512-EcdwhzSMNp73+7c2WGBsfepdVIDfk2v7pGHH7ZNqsXSJX3lR4bHXN0amEr09Odel6k1/p7Onw7NdABUkwt1VRA==
+
 showdown@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.9.1.tgz#134e148e75cd4623e09c21b0511977d79b5ad0ef"

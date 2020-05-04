@@ -109,6 +109,139 @@ export async function getStaticProps({ params }) {
       replace: `<${key} class="${classMap[key]}" $1>`
     }));
 
+  
+  let toc = []
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+  
+    return obj;
+  }
+  
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+  
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+  
+    return keys;
+  }
+  
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+  
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+  
+    return target;
+  }
+  
+  function showdownToc() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        toc = _ref.toc;
+  
+    return function () {
+      return [{
+        type: 'output',
+        filter: function filter(source) {
+          var regex = /(<h([1-6]).*?id="([^"]*?)".*?>(.+?)<\/h[1-6]>)|(<p>\[toc\]<\/p>)/g; // find and collect all headers and [toc] node;
+  
+          var collection = [];
+          source.replace(regex, function (wholeMatch, _, level, anchor, text) {
+            if (wholeMatch === '<p>[toc]</p>') {
+              collection.push({
+                type: 'toc'
+              });
+            } else {
+              text = text.replace(/<[^>]+>/g, '');
+              var tocItem = {
+                anchor: anchor,
+                level: Number(level),
+                text: text
+              };
+  
+              if (toc) {
+                toc.push(tocItem);
+              }
+  
+              collection.push(_objectSpread2({
+                type: 'header'
+              }, tocItem));
+            }
+  
+            return '';
+          }); // calculate toc info
+  
+          var tocCollection = [];
+          collection.forEach(function (_ref2, index) {
+            var type = _ref2.type;
+  
+            if (type === 'toc') {
+              if (collection[index + 1] && collection[index + 1].type === 'header') {
+                var headers = [];
+                var levelToToc = collection[index + 1].level;
+  
+                for (var i = index + 1; i < collection.length; i++) {
+                  if (collection[i].type === 'toc') break;
+                  var level = collection[i].level;
+  
+                  if (level === levelToToc) {
+                    headers.push(collection[i]);
+                  }
+                }
+  
+                tocCollection.push(headers);
+              } else {
+                tocCollection.push([]);
+              }
+            }
+          }); // replace [toc] node in source
+  
+          source = source.replace(/<p>\[toc\]<\/p>[\n]*/g, function () {
+            var headers = tocCollection.shift();
+  
+            if (headers && headers.length) {
+              var str = "<ol>".concat(headers.map(function (_ref3, index) {
+                var text = _ref3.text,
+                    anchor = _ref3.anchor;
+                return `<li>${index+1}: <a class='hover:bg-white hover:text-black dark-mode:hover:bg-black dark-mode:hover:text-white bg-black text-white dark-mode:bg-white dark-mode:text-black rounded px-1' href=\"#`.concat(anchor, "\">").concat(text, "</a></li>");
+              }).join(''), "</ol>\n");
+              return str;
+            }
+  
+            return '';
+          });
+          return source;
+        }
+      }];
+    };
+  }
+
   var showdown = require('showdown'),
     converter = new showdown.Converter({
       extensions: [
@@ -122,12 +255,17 @@ export async function getStaticProps({ params }) {
           ],
         }),
         showdownHighlight,
-        ...bindings
+        showdownToc({toc}),
+        ...bindings,
+        
       ]
     })
 
     
+
+    
     const content = await converter.makeHtml(post.content);
+    console.log(toc)
 
   return {
     props: {

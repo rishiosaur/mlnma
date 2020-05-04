@@ -32,6 +32,7 @@
     "showdown-highlight": "^2.1.4",
     "showdown-highlightjs-extension": "^0.1.2",
     "showdown-katex": "^0.8.0",
+    "showdown-toc": "^1.0.1",
     "unfetch": "^4.1.0"
   },
   "devDependencies": {

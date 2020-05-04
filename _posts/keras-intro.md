@@ -15,8 +15,11 @@ categories:
 emoji: '🔆'
 ---
 
-#### Notes
-<small>This article assumes you're already familiar with the basics of machine learning, like neurons, the gradient descent and backpropagation algorithms, and how all of them link together. If you're not familiar with how these work, I highly recommend [Grant Sanderson](https://3blue1brown.co)'s course on the math and intuition behind Neural Nets ()</small>
+## Table of Contents
+[toc]
+
+<p>Notes</p>
+<small>This article assumes you're already familiar with the basics of machine learning, like neurons, the gradient descent and backpropagation algorithms, and how all of them link together. If you're not familiar with how these work, I highly recommend [Grant Sanderson](https://3blue1brown.co)'s course on the math and intuition behind Neural Nets: [View Here](</small>
 
 <hr/>
 
