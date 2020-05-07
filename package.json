@@ -21,6 +21,7 @@
     "next-page-transitions": "^1.0.0-beta.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-ga": "^2.7.0",
     "react-icons": "^3.10.0",
     "react-media": "^1.10.0",
     "rehype-katex": "^3.0.0",
