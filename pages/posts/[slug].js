@@ -251,7 +251,7 @@ export async function getStaticProps({ params }) {
           errorColor: '#ff0000',
           delimiters: [
             { left: "$$", right: "$$", display: false },
-            { left: '~', right: '~', display: false, asciimath: true },
+            { left: '~', right: '~', display: false, asciimath: false },
           ],
         }),
         showdownHighlight,
