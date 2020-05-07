@@ -19,7 +19,7 @@ emoji: '🔆'
 [toc]
 
 <p>Notes</p>
-<small>This article assumes you're already familiar with the basics of machine learning, like neurons, the gradient descent and backpropagation algorithms, and how all of them link together. If you're not familiar with how these work, I highly recommend [Grant Sanderson](https://3blue1brown.co)'s course on the math and intuition behind Neural Nets: [View Here](</small>
+<small>This article assumes you're already familiar with the definition of machine learning, like neurons, the gradient descent and backpropagation algorithms, and how all of them link together. If you're not familiar with how these work, I highly recommend [Grant Sanderson](https://3blue1brown.co)'s course on the math and intuition behind Neural Nets: [View Here](</small>
 
 <hr/>
 
@@ -27,6 +27,21 @@ emoji: '🔆'
 Keras and TensorFlow are some of the most recognizable names in the machine learning ecosystem. The former is a high level, idiomatic deep learning API, and the latter is primarily a graph computational library. However, computation is but one part of Tensorflow's entire library. It's used as a complete machine learning library in the real world, and exposes a subset of Keras to do so.
 
 Think to yourself: how much of that made sense? If your answer was something along the lines of, "not much," don't worry! That's what this article is about.
+
+## The structure of a neuron
+
+Before getting into he programmatic aspects of ML, let's take a look at how a neuron functions, and what its purpose is.
+
+A neuron can be thought of as a function:
+
+```latex
+n(x) = w \cdot x + b
+```
+where ~w~ is a tensor with all the weights of the equation, ~x~ is a tensor with all the inputs to the equation, and ~b~ is the bias.
+
+### What all those terms mean
+
+This is where a lot of people get stuck; these seemingly arbitrary definitions of tensors, weights, biases and 
 
 ## Deconstructing a neural network
 
