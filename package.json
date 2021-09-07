@@ -26,7 +26,7 @@
     "react-media": "^1.10.0",
     "rehype-katex": "^3.0.0",
     "remark": "11.0.2",
-    "remark-html": "10.0.0",
+    "remark-html": "13.0.2",
     "remark-html-katex": "^2.0.1",
     "remark-math": "^2.0.1",
     "showdown": "^1.9.1",
